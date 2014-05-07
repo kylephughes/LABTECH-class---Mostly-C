@@ -1,0 +1,7 @@
+#! /bin/csh -f
+
+# duplicate the look program
+
+foreach x ($argv)
+	grep $argv[$x] /usr/share/dict/words
+end

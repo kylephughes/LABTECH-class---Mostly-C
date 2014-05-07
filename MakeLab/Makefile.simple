@@ -1,0 +1,12 @@
+#Makefile for 2-part print
+print: main.o part1.o part2.o
+	cc -o print main.o part1.o part2.o
+
+main.o: main.c
+	cc -c main.c
+
+part1.o: part1.c
+	cc -c part1.c
+
+part2.o: part2.c
+	cc -c part2.c

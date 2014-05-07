@@ -1,0 +1,108 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	2014.04.01.18.11.29;	author hughes72;	state Exp;
+branches;
+next	;
+
+
+desc
+@first part of clock view
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/* view.c -- view module for clock project
+ *
+ * Kyle Hughes 3/27/14
+ */
+
+#include "clock.h"
+#include "string.h"
+/* VIEW */
+
+/* We get a pointer to a "struct tm" object, put it in a string, and
+ * then send it to the screen.
+ */
+void ledshow(struct tm *dateinfo, int ampm)
+{
+    char       timestring[9];
+    digit *where = get_display_location();
+    int i;
+
+    // handles am/pm mode otherwise use 24h mode
+    if(ampm ==1)
+      strftime(timestring,9,"%I%M%S",dateinfo); 
+    else{
+      sprintf(timestring,"%02d%02d%02d",
+	      dateinfo->tm_hour,
+	      dateinfo->tm_min,
+	      dateinfo->tm_sec);
+    }       
+
+    for (i = 0; i < 6; i++) {
+       switch ( timestring[i] ) {
+           case ' ': where[i] = 0x00; break;
+           case '1': where[i] = 0x24; break;
+           case '2': where[i] = 0x5d; break;
+           case '3': where[i] = 0x6d; break;
+           case '4': where[i] = 0x2e; break;
+           case '5': where[i] = 0x6b; break;
+           case '6': where[i] = 0x7b; break;
+           case '7': where[i] = 0x25; break;
+           case '8': where[i] = 0x7f; break;
+           case '9': where[i] = 0x2f; break;
+           case '0': where[i] = 0x77; break;
+       }
+    }
+ 
+    char mode[9];
+    
+    //determine which indicator should be turned on
+    if(ampm ==1){
+      strftime(mode,9,"%p",dateinfo);
+      if(strcmp(mode,"AM") == 0)
+	{
+	  where[6]= 0xf2;
+	}
+      else{
+	where[6] = 0xf4;
+      }
+    }
+    else{
+      where[6] = 0xf1;
+    }
+    display();
+    fflush(stdout);
+}
+
+void show(struct tm *dateinfo, int ampm)
+{
+    char       timestring[9];
+
+    // handles am/pm mode otherwise use 24h mode
+    if(ampm == 1){
+      strftime(timestring,80,"%I:%M:%S%p",dateinfo);
+      printf("\r%s", timestring);
+    }
+    else{
+      sprintf(timestring,
+	      "%02d:%02d:%02d",
+	      dateinfo->tm_hour,
+	      dateinfo->tm_min,
+	      dateinfo->tm_sec);
+      printf("\r%s",timestring);
+
+    }
+    fflush(stdout);
+}
+@

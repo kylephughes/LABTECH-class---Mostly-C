@@ -1,0 +1,117 @@
+head	3.3;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+3.3
+date	2014.05.06.16.35.18;	author hughes72;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.03.27.16.46.58;	author hughes72;	state Exp;
+branches;
+next	;
+
+
+desc
+@Makefile for the trig program
+@
+
+
+3.3
+log
+@test
+@
+text
+@  # Makefile for abprint project
+#
+# DFP
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+PROGRAM = trig
+SOURCES = main.c sine.c cosine.c tangent.c
+OBJECTS = main.o sine.o cosine.o tangent.o
+INCLUDE = -I/usr/lib/gcc/x86_64-redhat-linux/3.4.6/include
+COMPILE = gcc
+CFLAGS  = -g -Wall
+LIBRARY = -lm
+
+.c.o:; $(COMPILE) $(CFLAGS) -c $< $(INCLUDE)
+
+$(PROGRAM) : $(OBJECTS)
+	$(COMPILE) -o $@@ $(CFLAGS) $(OBJECTS) $(LIBRARY)
+
+clean:; /bin/rm -f $(PROGRAM) $(OBJECTS) core
+
+depend: $(SOURCES) 
+	makedepend $(INCLUDE) $(SOURCES)
+
+
+# DO NOT DELETE
+
+main.o: /usr/include/stdlib.h /usr/include/features.h
+main.o: /usr/include/stdc-predef.h /usr/include/sys/cdefs.h
+main.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+main.o: /usr/lib/gcc/x86_64-redhat-linux/3.4.6/include/stddef.h
+main.o: /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h
+main.o: /usr/include/endian.h /usr/include/bits/endian.h
+main.o: /usr/include/bits/byteswap.h /usr/include/bits/types.h
+main.o: /usr/include/bits/typesizes.h /usr/include/bits/byteswap-16.h
+main.o: /usr/include/sys/types.h /usr/include/time.h
+main.o: /usr/include/sys/select.h /usr/include/bits/select.h
+main.o: /usr/include/bits/sigset.h /usr/include/bits/time.h
+main.o: /usr/include/sys/sysmacros.h /usr/include/bits/pthreadtypes.h
+main.o: /usr/include/alloca.h /usr/include/bits/stdlib-float.h
+sine.o: /usr/include/stdio.h /usr/include/features.h
+sine.o: /usr/include/stdc-predef.h /usr/include/sys/cdefs.h
+sine.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+sine.o: /usr/lib/gcc/x86_64-redhat-linux/3.4.6/include/stddef.h
+sine.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+sine.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+sine.o: /usr/lib/gcc/x86_64-redhat-linux/3.4.6/include/stdarg.h
+sine.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+sine.o: /usr/include/math.h /usr/include/bits/huge_val.h
+sine.o: /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h
+sine.o: /usr/include/bits/inf.h /usr/include/bits/nan.h
+sine.o: /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h
+cosine.o: /usr/include/stdio.h /usr/include/features.h
+cosine.o: /usr/include/stdc-predef.h /usr/include/sys/cdefs.h
+cosine.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+cosine.o: /usr/lib/gcc/x86_64-redhat-linux/3.4.6/include/stddef.h
+cosine.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+cosine.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+cosine.o: /usr/lib/gcc/x86_64-redhat-linux/3.4.6/include/stdarg.h
+cosine.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+cosine.o: /usr/include/math.h /usr/include/bits/huge_val.h
+cosine.o: /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h
+cosine.o: /usr/include/bits/inf.h /usr/include/bits/nan.h
+cosine.o: /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h
+tangent.o: /usr/include/stdio.h /usr/include/features.h
+tangent.o: /usr/include/stdc-predef.h /usr/include/sys/cdefs.h
+tangent.o: /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h
+tangent.o: /usr/lib/gcc/x86_64-redhat-linux/3.4.6/include/stddef.h
+tangent.o: /usr/include/bits/types.h /usr/include/bits/typesizes.h
+tangent.o: /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h
+tangent.o: /usr/lib/gcc/x86_64-redhat-linux/3.4.6/include/stdarg.h
+tangent.o: /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h
+tangent.o: /usr/include/math.h /usr/include/bits/huge_val.h
+tangent.o: /usr/include/bits/huge_valf.h /usr/include/bits/huge_vall.h
+tangent.o: /usr/include/bits/inf.h /usr/include/bits/nan.h
+tangent.o: /usr/include/bits/mathdef.h /usr/include/bits/mathcalls.h
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+# Makefile for abprint project
+@

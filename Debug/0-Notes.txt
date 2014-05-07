@@ -1,0 +1,195 @@
+Notes on debugging lab:
+
+We are using gdb
+
+
+If you want to debug things using core dumps, unlimit coredumpsize
+first.  (Run "limit" to see your system limits.)
+
+
+List of debugging commands:
+
+    run                   starts program
+    where                 shows runtime stack
+    up                    goes up the runtime stack
+    down                  goes down the runtime stack
+    print VARIABLE        shows value of VARIABLE
+    list                  shows code
+    break [FILE:]LINE     set breakpoint in FILE at LINE
+    watch VARIABLE        sets a watch on VARIABLE
+    cont                  continues program
+    
+
+buggy.C:
+	i++ on line 24 should be i--;
+
+How we tested it:
+
+	compiled with "-g": "g++ -g buggy.C -o buggy"
+	ran "gdb buggy"
+	gave the "run" command.
+
+	dies with ( bus error | segmentation fault )
+
+	"where" just says we're in main.
+
+	"print i" says that it equals 588 (or some large number),
+        which is probably wrong 
+
+	"list" shows some code, and we see that there's an "i++" in
+	the loop.  quit gdb and Change the line to "i--".
+
+	recompile; run gdb again.
+	now it works.
+
+
+runoff.C:
+	Line 29: "i <= ARRAY_SIZE" should be "<".
+
+How we tested it:
+
+	compiled with "-g": "g++ -g runoff.C -o runoff"
+	ran "gdb runoff"
+	gave "run" command
+
+	variable "x" changes midstream
+	"list" shows the code.
+	we want to see more, so "list 20" lists the lines around line 20
+	(to look farther down, we can do "list 25")
+
+	Stop before the first time we print x by using a break.
+	"break 22" sets a breakpoint at line 22.  (If we had multiple
+	files, we could say "break runoff.C:22".)
+
+	"run" has the program stop *before* it executes the line
+	with the break.  "print x" shows us the value.
+
+	Now we run "watch x", and then say "continue".
+
+	We are told that x has been given a new value of 8, and
+	that it happened at line 29.  Variable i is 3.
+
+	Looking back over the code, we see that the first loop ends on
+	"i <= ARRAY_SIZE", instead of "<".  Because of the way the compiler
+	allocates space, "x" is at the end of the array.  So when we
+	ran off the end of "a", we scribbled in "x".  At the time, the
+	value of "i" was 3, so we stored things in a[5], which points at "x".
+
+
+
+stack.C:
+	Has one major bug.  This:
+		  for (i = 0; i <= 5; i++)
+		    cout << tester.pop() << " ";
+	should be this:
+		  for (i = 0; i < 5; i++)
+		    cout << tester.pop() << " ";
+
+How we tested it:
+
+	
+	compiled with "-g": "g++ -g stack.C -o stack"
+	dies with segmentation fault
+
+	ran "gdb stack core", so gdb got the source file and the core
+    dump information
+
+    The program died at line 42.  "print top" says that top is a
+    pointer to a ListItem and has the hex value of "0".  (Ie, it is a
+    null pointer.)  If "top" is null, then "top->data" can't be done:
+    there isn't anything that "top" is pointing to.
+		(Note: in some cases, gdb may say there isn't anything
+		named "top".  If so, you can use "print this.top";
+		giving the "this" specifically, so it knows which one
+		you want.)
+
+	"list 42" shows us the code, but it all looks okay.  The problem
+	may be somewhere else.
+
+	"where" tells us how we got here.
+
+	Maybe the problem is in "main()", where we were called at line
+	63.  We want to look at the data in there.
+
+	"up" takes us to the function which called this function.
+	(The stack as printed by "where" has main() *under* pop(),
+	so you might think of that as going down, not up.  But if you
+	look at the numbers, pop() is #0, and main() is #1, so we went
+	up to the next higher number.)
+
+	"list" shows us the code.  We're in a loop, so we look at the
+	loop variable.
+
+	"print i" says that it's equal to 5.
+
+	looking at the loop, we see another "i <= 5", which should
+	probably be "i < 5".
+
+	We make the change and recompile.  Now it works.
+
+
+NOTE: this last example has a more serious problem, in that it uses a
+counter, indirectly keeping track of the size of the stack, instead of
+a using a direct test on whether the stack has anything in it.  The
+IntStack class which we are using has an "isEmpty()" function.  Before
+we pop() anything off the stack, we should first check if it is empty.
+That way, we'll never get a bogus pop.
+
+Using this direct test in our loop, we can replace this:
+
+	  for (i = 0; i < 5; i++)
+	    cout << tester.pop() << " ";
+
+with this:
+	  while (! tester.isEmpty() ) {
+	    cout << tester.pop() << " ";
+	  }
+
+The second one is more readable, for when this program needs to be
+worked on later.  It's logical, in that we're looking over the whole
+stack and we're stopping when the stack is empty.
+
+This loop doesn't depend on any direct counter: if the stack has 30
+things on it, none will be missed.  If the stack has 2 things on it (or
+nothing at all), the while loop won't run off the end.
+
+
+
+assertions:
+
+If you "#include <assert.h>", then you can assert() any boolean at any
+point in your program.  If it's false, the program stops with an error
+message and dumps core.  (Probably not too useful to dig through the
+core dump for most people.)
+
+
+debug levels:
+
+Just put "if (debuglevel > 1) " (or other such values as needed) into
+your program.  Easiest to activate them with command-line switches.
+
+You can do something like this:
+
+/* global */
+int DebugLevel = 0;
+
+int main(int argc, char *argv[])
+
+      while ... getopt .....
+
+         case 'D': DebugLevel++; break;
+
+
+Then, in the same file, you can do this:
+
+    if (DebugLevel > 4) {
+        printf("4: Closing file %s", inputfile);
+    }
+
+If you're debugging things in a different file than main(), you
+have to say "extern int DebugLevel;", so the compiler knows to
+look for the variable in a different file.
+
+Then you can run it like:  foo -D  or  foo -DDDDD
+
+

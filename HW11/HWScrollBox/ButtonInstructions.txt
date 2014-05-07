@@ -1,0 +1,25 @@
+SETTING THE TITLE BAR:
+
+Same as the clock.
+
+
+HANDLING BUTTON AND KEY EVENTS:
+
+Same as the clock.
+
+
+BUTTON FUNCTIONS:
+
+The "Fast" button should make the scrolling go faster.  The "Slow"
+button should make the scrolling go slower.  The "Time" button should
+stop the scrolling, show the current time for 5 seconds, and then
+resume scrolling.  The "Test" button should put up a test pattern or
+something to turn on and off every one of the LEDs so the user can
+check to see if one burned out or is permanently on.  Make something
+up.  The "off" button should quit.
+
+
+MAKING YOUR OWN BUTTONS:
+
+Same as the clock.
+

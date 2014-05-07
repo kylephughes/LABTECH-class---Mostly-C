@@ -1,0 +1,27 @@
+LED Dot Matrix Layout
+
+The dot-matrix is 72 dots wide and 10 dots high.  It is stored as a set
+of 90 bytes arranged in rows.
+
+    Row 0   bytes  0- 8
+    Row 1   bytes  9-17
+    Row 2   bytes 18-26
+    Row 3   bytes 27-35
+     ...
+    Row 9   bytes 81-89
+
+
+The bytes are arranged with the MSB to the left, and going
+left-to-right.  If bytes 0, 9, 18, 27, 36, 45, 54, 63, 72, and 81
+were all set to 0x80, the result would be a solid bar on the left side
+of the display.  To set a solid bar on the right side you would set
+bytes 8, 17, 26, 35, 44, 53, 62, 71, and 89 to 0x01.
+
+What you need to do is figure out which characters (up to 9) you want
+to display, and put the bits from those characters in the right place
+in the array.
+
+Then you call the show() function, and it makes the screen match
+what's stored in the array.
+
+

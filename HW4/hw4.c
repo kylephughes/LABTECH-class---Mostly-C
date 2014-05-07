@@ -1,0 +1,51 @@
+/* Simple Stats in C on Elvis
+   Feb 4, 2014
+   Kyle Hughes
+*/
+#include <stdio.h>
+#include <float.h>
+
+//Main Function desinged to read in numbers and display
+//Statistics based on the input entered.
+int main()
+{
+    int c;
+    double average;
+    double item;
+    int itemsread;
+    int numCount = 0;
+    double count = 0;
+    double smallest = DBL_MAX;
+    double largest = 0 - smallest;
+
+    while ( (itemsread = scanf("%lf", &item)) != EOF && item != 0) {
+        // check to see if we got valid input
+        if (itemsread == 1) {
+            numCount++;
+            count+=item;
+            if(item > largest) {
+                largest = item;
+            }
+            if(item < smallest) {
+                smallest = item;
+            }
+
+        }
+        // discard remaining input on line
+        while ( (c = getchar()) != '\n' )
+            ;
+
+    }
+    // display the calculated output
+    if(numCount !=0) {
+        average = count/numCount;
+        printf("# of Numbers: %d\n", numCount);
+        printf("Smallest: %f\n", smallest);
+        printf("Largest: %f\n", largest);
+        printf("Sum of Numbers: %f\n",count);
+        printf("The average of the numbers: %f\n",average);
+    } else {
+        printf("No Numbers Were Entered!\n");
+    }
+    return 0;
+}

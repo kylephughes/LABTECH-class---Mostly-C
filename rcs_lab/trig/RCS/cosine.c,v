@@ -1,0 +1,53 @@
+head	4.5;
+access;
+symbols;
+locks
+	hughes72:4.5; strict;
+comment	@ * @;
+
+
+4.5
+date	2014.05.06.16.28.44;	author hughes72;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.03.27.16.49.23;	author hughes72;	state Exp;
+branches;
+next	;
+
+
+desc
+@cosine
+@
+
+
+4.5
+log
+@added spaces
+@
+text
+@/* cosine.c - part of the "trig" project
+ *
+ * DFP
+   */
+
+#include <stdio.h>
+#include <math.h>
+
+void cosine(double angle)
+{
+  printf("cos(%lf) = %lf\n", angle, cos(angle));
+}
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d4 1
+a4 1
+ */
+@

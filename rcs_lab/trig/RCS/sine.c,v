@@ -1,0 +1,36 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	2014.03.27.16.49.34;	author hughes72;	state Exp;
+branches;
+next	;
+
+
+desc
+@sine
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/* sine.c - part of the "trig" project
+ *
+ * DFP
+ */
+
+#include <stdio.h>
+#include <math.h>
+
+void sine(double angle)
+{
+  printf("sin(%lf) = %lf\n", angle, sin(angle));
+}
+@

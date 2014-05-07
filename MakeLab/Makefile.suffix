@@ -1,0 +1,11 @@
+#Makefile for 2-part print
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+.c.o: ; cc -c $<
+
+
+print: main.o part1.o part2.o
+	cc -o print main.o part1.o part2.o
+
+

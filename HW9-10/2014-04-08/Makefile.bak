@@ -1,0 +1,8 @@
+# makefile for showletter
+#
+# DFP, 8 Apr 2014
+
+showletter: showletter.c
+	gcc -Wall -o showletter -g showletter.c
+
+
