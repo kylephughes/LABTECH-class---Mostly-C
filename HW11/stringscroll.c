@@ -1,6 +1,6 @@
 /* stringscroll.c - scroll a string
  *
- * D Provine and The Usual Suspects, 15 April 2014
+ * hughesk
  */
 
 #include <stdio.h>
