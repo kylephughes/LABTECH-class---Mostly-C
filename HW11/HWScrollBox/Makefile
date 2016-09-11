@@ -1,6 +1,6 @@
 # Makefile for scroll
 #
-# D Provine, 17 November 2012
+# hughesk
 
 SOURCES = scroll.c model.c view.c
 OBJECTS = scroll.o model.o view.o
